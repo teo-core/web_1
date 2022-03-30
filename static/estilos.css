@@ -1,15 +1,21 @@
 body{
     background-color: rgb(233, 194, 37);
+    
 }
 header,footer{
-    padding: 5%;
+    padding: 1%;
     background-color: cornflowerblue;
     color: aliceblue;
-    font-size: xx-large;text-align: center;
+    font-size: large;
+    text-align: center;
+    height:0vmax;
 }
 nav ul{
     list-style: none;
 }
 nav ul li{
     display:inline-block;
+}
+.cuerpo{
+    min-height: 500px;
 }

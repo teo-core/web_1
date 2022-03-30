@@ -15,7 +15,9 @@ def server_static(filename):
 @jinja2_view('home.html')
 def hola():
     cnx = sqlite3.connect(BASE_DATOS)
-    consulta = "select id,nombre, apelllidos,dni, id_ocupacion from persona"
+    consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion 
+                from persona p left join T_ocupacion to2 
+                on p.id_ocupacion =to2 .id"""
     cursor = cnx.execute(consulta)
     filas = cursor.fetchall()
     cnx.close()
