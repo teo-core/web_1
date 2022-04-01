@@ -64,18 +64,17 @@
     <hr><br>
     <h2>Números</h2>
     {%for num in numeros%}
-      <input type="radio" id="dato{{num[0]}}" name="numero" value="{{num[0]}}">
+      <input type="radio" id="dato{{num[0]}}" name="numero" value="{{num[0]}}" 
+      {%if (datos) and (num[0]==datos[5]) %}checked{%endif%}>
       <label for="dato{{num[0]}}">{{num[1]}}</label><br/>
     {%endfor%}
     <br/>
     <hr><br>
     <h2>Vehículos</h2>
-    <input type="checkbox" id="vehicle1" name="vehiculo" value="Bike">
-    <label for="vehicle1"> I have a bike</label><br>
-    <input type="checkbox" id="vehicle2" name="vehiculo" value="Car">
-    <label for="vehicle2"> I have a car</label><br>
-    <input type="checkbox" id="vehicle3" name="vehiculo" value="Boat">
-    <label for="vehicle3"> I have a boat</label>
+    {%for v in vehiculos%}
+      <input type="checkbox" id="vh{{v[0]}}" name="vehiculo" value="{{v[0]}}">
+      <label for="vh{{v[0]}}">{{v[1]}}</label><br>
+    {%endfor%}
     <br><br>        
     <hr><br>
     <input type="submit" value="Enviar">
