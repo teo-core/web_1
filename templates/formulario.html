@@ -72,7 +72,8 @@
     <hr><br>
     <h2>Vehículos</h2>
     {%for v in vehiculos%}
-      <input type="checkbox" id="vh{{v[0]}}" name="vehiculo" value="{{v[0]}}">
+      <input type="checkbox" id="vh{{v[0]}}" name="vehiculo" value="{{v[0]}}"
+      {%if (mis_vehiculos) and  v[0] in mis_vehiculos%}checked{%endif%}>
       <label for="vh{{v[0]}}">{{v[1]}}</label><br>
     {%endfor%}
     <br><br>        

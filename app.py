@@ -51,8 +51,20 @@ def mi_form(id=None):
         cursor = cnx.execute(consulta,(id,))
         filas = cursor.fetchone()
 
+        # Mis vehículos
+        consulta = f"select id_vehiculo from persona_vh where id_persona = {id}"
+        cursor = cnx.execute(consulta)
+        tmp = cursor.fetchall()
+        mis_vehiculos = []
+        for t in tmp:
+            mis_vehiculos.append(t[0])
+
     cnx.close()
-    return {'datos': filas,'ocupaciones':ocupaciones, 'numeros':numeros,'vehiculos':vehiculos}
+    return {'datos': filas,
+            'ocupaciones':ocupaciones, 
+            'numeros':numeros,
+            'vehiculos':vehiculos,
+            'mis_vehiculos': mis_vehiculos}
 
 @route('/guardar', method='POST')
 def guardar():
@@ -62,12 +74,23 @@ def guardar():
     id = request.POST.id
     ocupacion = request.POST.ocupacion
     numero = request.POST.numero
+
+    #Lista de vehículos
+    vehiculos = request.POST.dict['vehiculo']
     
     cnx = sqlite3.connect(BASE_DATOS)
     
     if id =='': #Alta
         consulta = "insert into persona(nombre, apelllidos,dni, id_ocupacion, id_numero) values (?,?,?,?,?)"
-        cnx.execute(consulta,(nombre,apellidos,dni,ocupacion, numero))
+        tmp = cnx.execute(consulta,(nombre,apellidos,dni,ocupacion, numero))
+        nuevo_id = tmp.lastrowid
+        # --------------
+        for v in vehiculos:
+            nuevos_vh = f"""insert into persona_vh(id_persona,id_vehiculo) 
+            values({nuevo_id},{v})"""
+            cnx.execute(nuevos_vh)
+        
+
     else: #Actualización
         consulta = "update persona set nombre = ?, apelllidos = ?, dni =?, id_ocupacion=?, id_numero=? where id =?"
         cnx.execute(consulta,(nombre,apellidos,dni,ocupacion,numero,id))
