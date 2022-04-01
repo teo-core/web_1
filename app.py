@@ -15,7 +15,7 @@ def server_static(filename):
 @jinja2_view('home.html')
 def hola():
     cnx = sqlite3.connect(BASE_DATOS)
-    consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion 
+    consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion,p.id_numero 
                 from persona p left join T_ocupacion to2 
                 on p.id_ocupacion =to2 .id"""
     cursor = cnx.execute(consulta)
@@ -27,20 +27,27 @@ def hola():
 @route('/editar/<id:int>')
 @jinja2_view('formulario.html')
 def mi_form(id=None):
+    # Ocupaciones
     cnx = sqlite3.connect(BASE_DATOS)
     consulta = "select * from T_ocupacion"
     cursor = cnx.execute(consulta)
     ocupaciones = cursor.fetchall()
 
-    if id is None:
-        return {'ocupaciones':ocupaciones}
+    #Números
+    consulta = "select * from T_numero"
+    cursor = cnx.execute(consulta)
+    numeros = cursor.fetchall()
+
+
+    if id is None: #Estamos en un alta
+        return {'ocupaciones':ocupaciones, 'numeros':numeros}
     else:
         consulta = "select id,nombre, apelllidos,dni, id_ocupacion from persona where id =?"
         cursor = cnx.execute(consulta,(id,))
         filas = cursor.fetchone()
 
     cnx.close()
-    return {'datos': filas,'ocupaciones':ocupaciones}
+    return {'datos': filas,'ocupaciones':ocupaciones, 'numeros':numeros}
 
 @route('/guardar', method='POST')
 def guardar():
@@ -49,12 +56,13 @@ def guardar():
     dni = request.POST.dni
     id = request.POST.id
     ocupacion = request.POST.ocupacion
+    numero = request.POST.numero
     
     cnx = sqlite3.connect(BASE_DATOS)
     
     if id =='': #Alta
-        consulta = "insert into persona(nombre, apelllidos,dni, id_ocupacion) values (?,?,?,?)"
-        cnx.execute(consulta,(nombre,apellidos,dni,ocupacion))
+        consulta = "insert into persona(nombre, apelllidos,dni, id_ocupacion, id_numero) values (?,?,?,?,?)"
+        cnx.execute(consulta,(nombre,apellidos,dni,ocupacion, numero))
     else: #Actualización
         consulta = "update persona set nombre = ?, apelllidos = ?, dni =?, id_ocupacion=? where id =?"
         cnx.execute(consulta,(nombre,apellidos,dni,ocupacion,id))

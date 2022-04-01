@@ -63,14 +63,11 @@
       <br><br>        
     <hr><br>
     <h2>Números</h2>
-    <input type="radio" id="dato1" name="age" value="1">
-    <label for="dato1">Uno</label><br/>
-
-    <input type="radio" id="dato2" name="age" value="2">
-    <label for="dato2">Dos</label><br/>
-
-    <input type="radio" id="dato3" name="age" value="3">
-    <label for="dato3">Tres</label><br/>
+    {%for num in numeros%}
+      <input type="radio" id="dato{{num[0]}}" name="numero" value="{{num[0]}}">
+      <label for="dato{{num[0]}}">{{num[1]}}</label><br/>
+    {%endfor%}
+    <br/>
     <hr><br>
     <h2>Vehículos</h2>
     <input type="checkbox" id="vehicle1" name="vehiculo" value="Bike">
