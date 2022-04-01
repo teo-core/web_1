@@ -95,6 +95,16 @@ def guardar():
         consulta = "update persona set nombre = ?, apelllidos = ?, dni =?, id_ocupacion=?, id_numero=? where id =?"
         cnx.execute(consulta,(nombre,apellidos,dni,ocupacion,numero,id))
 
+        # Mis vehículos
+        #Borro todos los vehículos de una persona e inserto los nuevos
+        consulta = f'delete from persona_vh where id_persona= {id}'
+        cnx.execute(consulta)
+        # --------------
+        for v in vehiculos:
+            nuevos_vh = f"""insert into persona_vh(id_persona,id_vehiculo) 
+            values({id},{v})"""
+            cnx.execute(nuevos_vh)
+
     cnx.commit()
     cnx.close()
     redirect('/')
