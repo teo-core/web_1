@@ -15,9 +15,9 @@ def server_static(filename):
 @jinja2_view('home.html')
 def hola():
     cnx = sqlite3.connect(BASE_DATOS)
-    consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion,p.id_numero 
+    consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion,tn.descripcion 
                 from persona p left join T_ocupacion to2 
-                on p.id_ocupacion =to2 .id"""
+                on p.id_ocupacion =to2.id left join T_numero tn on tn.id=p.id_numero """
     cursor = cnx.execute(consulta)
     filas = cursor.fetchall()
     cnx.close()
@@ -38,16 +38,21 @@ def mi_form(id=None):
     cursor = cnx.execute(consulta)
     numeros = cursor.fetchall()
 
+    #Vehículos
+    consulta = "select * from T_vehiculo"
+    cursor = cnx.execute(consulta)
+    vehiculos = cursor.fetchall()
+
 
     if id is None: #Estamos en un alta
-        return {'ocupaciones':ocupaciones, 'numeros':numeros}
+        return {'ocupaciones':ocupaciones, 'numeros':numeros,'vehiculos':vehiculos}
     else:
-        consulta = "select id,nombre, apelllidos,dni, id_ocupacion from persona where id =?"
+        consulta = "select id,nombre, apelllidos,dni, id_ocupacion, id_numero from persona where id =?"
         cursor = cnx.execute(consulta,(id,))
         filas = cursor.fetchone()
 
     cnx.close()
-    return {'datos': filas,'ocupaciones':ocupaciones, 'numeros':numeros}
+    return {'datos': filas,'ocupaciones':ocupaciones, 'numeros':numeros,'vehiculos':vehiculos}
 
 @route('/guardar', method='POST')
 def guardar():
@@ -64,8 +69,8 @@ def guardar():
         consulta = "insert into persona(nombre, apelllidos,dni, id_ocupacion, id_numero) values (?,?,?,?,?)"
         cnx.execute(consulta,(nombre,apellidos,dni,ocupacion, numero))
     else: #Actualización
-        consulta = "update persona set nombre = ?, apelllidos = ?, dni =?, id_ocupacion=? where id =?"
-        cnx.execute(consulta,(nombre,apellidos,dni,ocupacion,id))
+        consulta = "update persona set nombre = ?, apelllidos = ?, dni =?, id_ocupacion=?, id_numero=? where id =?"
+        cnx.execute(consulta,(nombre,apellidos,dni,ocupacion,numero,id))
 
     cnx.commit()
     cnx.close()
