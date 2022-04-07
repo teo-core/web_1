@@ -1,21 +1,37 @@
-body{
-    background-color: rgb(233, 194, 37);
-    
+.hero {
+    border-radius: 6px;
 }
-header,footer{
-    padding: 1%;
-    background-color: cornflowerblue;
-    color: aliceblue;
-    font-size: large;
-    text-align: center;
-    height:0vmax;
+
+.footer {
+    background-color: #ebe7e7;
+    border:1px solid rgb(183, 182, 182);
+    padding: 0.1rem;
+    border-radius: 6px;
 }
-nav ul{
-    list-style: none;
+
+table{
+    width: 100%;
 }
-nav ul li{
-    display:inline-block;
+
+th{
+    background-color: rgb(48, 48, 48);
+    color:white !important;
 }
-.cuerpo{
-    min-height: 500px;
+#datos{
+    border:1px solid black;
+    border-radius: 6px;
+    padding:3px;
+}
+tbody tr:nth-child(odd) {
+    background-color: rgb(205, 205, 205);
+}
+tbody tr:nth-child(odd) {
+    background-color: rgb(225, 222, 222);
+}
+
+.fondo{
+    background-color: rgb(155, 155, 155);
+}
+.container{
+    background-color: white;
 }

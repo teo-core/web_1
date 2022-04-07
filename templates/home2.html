@@ -1,0 +1,62 @@
+{%extends 'base_estilos.html'%}
+
+{%block title%}Home{%endblock%}
+
+{%block content%}
+<!-- <img src="/static/img/flor.jpg" alt="nada"> -->
+
+<div class="columns">
+    <div class="column is-1"></div>
+    <div class="column is-9">
+        <div class="hero is-primary is-small">
+            <div class="hero-body">
+                <h2 class="title">Listado de personas</h2>
+            </div>
+        </div> 
+        <br>       
+        <div id="datos">
+            <table class="table">
+                <thead class="title is-5">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>DNI</th>
+                        <th>Ocupación</th>
+                        <th>Número</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                </thead>
+                <tfoot class="title is-5">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>DNI</th>
+                    <th>Ocupación</th>
+                    <th>Número</th>
+                    <th colspan="2">Acciones</th>
+                </tfoot>
+                <tbody>
+                    {% for fila in datos%}
+                    <tr>
+                        <td>{{fila[0]}}</td>
+                        <td>{{fila[1]}}</td>
+                        <td>{{fila[2]}}</td>
+                        <td>{{fila[3]}}</td>
+                        <td>{{fila[4]}}</td>
+                        <td>{{fila[5]}}</td>
+                        <td style="background-color:white;"><a class="button is-warning"
+                                href="/editar/{{fila[0]}}">Editar</a></td>
+                        <td style="background-color:white;"><a class="button is-danger"
+                                href="/borrar/{{fila[0]}}">Borrar</a></td>
+                    </tr>
+                    {%endfor%}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="column is-2"></div>
+</div>
+</div>
+{%endblock%}

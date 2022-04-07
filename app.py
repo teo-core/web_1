@@ -7,12 +7,12 @@ BASE_DATOS = os.path.join(os.path.dirname(__file__),'personas.db' )
 
 
 
-@route('/static/<filename>')
+@route('/static/<filename:path>')
 def server_static(filename):
     return static_file(filename,root='./static')
 
 @route('/')
-@jinja2_view('home.html')
+@jinja2_view('home2.html')
 def hola():
     cnx = sqlite3.connect(BASE_DATOS)
     consulta = """SELECT p.id, p.nombre,p.apelllidos ,p.dni ,to2.descripcion,tn.descripcion 
@@ -25,7 +25,7 @@ def hola():
 
 @route('/editar')
 @route('/editar/<id:int>')
-@jinja2_view('formulario.html')
+@jinja2_view('formulario2.html')
 def mi_form(id=None):
     # Ocupaciones
     cnx = sqlite3.connect(BASE_DATOS)
@@ -119,4 +119,4 @@ def borrar(id):
     redirect('/')
 
 
-run(host= 'localhost',port=8080, debug=True)
+run(host= 'localhost',port=8000, debug=True)
